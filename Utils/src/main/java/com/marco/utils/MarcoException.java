@@ -23,16 +23,20 @@ public class MarcoException extends Exception {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
+	
+	public MarcoException(String message){
+		this("Error", message);
+	}
+	
+	public MarcoException(String title, String message){
+		this(title, message, ExceptionType.error);
+	}
+	
 	public MarcoException(String title, String message, ExceptionType type) {
 		super(message);
 		this.message = message;
 		this.title = title;
 		this.type = type;
-	}
-	
-	public MarcoException(String message){
-		this("Error", message, ExceptionType.error);
 	}
 
 	public MarcoException(Exception e) {
