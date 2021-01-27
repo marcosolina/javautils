@@ -7,9 +7,16 @@ import com.marco.utils.MarcoException;
 
 public abstract class MarcoResponse {
 	private boolean status;
-	private List<MarcoException> errors;
+	private List<MarcoApiError> errors;
 
 	public boolean addError(MarcoException e) {
+		if (errors == null) {
+			errors = new ArrayList<>();
+		}
+		return errors.add(new MarcoApiError(e));
+	}
+	
+	public boolean addError(MarcoApiError e) {
 		if (errors == null) {
 			errors = new ArrayList<>();
 		}
@@ -24,11 +31,11 @@ public abstract class MarcoResponse {
 		this.status = status;
 	}
 
-	public List<MarcoException> getErrors() {
+	public List<MarcoApiError> getErrors() {
 		return errors;
 	}
 
-	public void setErrors(List<MarcoException> errors) {
+	public void setErrors(List<MarcoApiError> errors) {
 		this.errors = errors;
 	}
 
