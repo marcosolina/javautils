@@ -121,6 +121,10 @@ final class Partition {
 	boolean isCompleteByPerfect() {
 		return (complete & PERF_FLAG) != 0;
 	}
+	
+	boolean isCompleteByLimit() {
+		return (complete & LIM_FLAG) != 0;
+	}
 
 	/** Gets true if current result is the best possible */
 	boolean isResultPerfect() {
@@ -327,7 +331,7 @@ final class Partition {
 			minSum = (avrSum - up);
 			maxSum = (avrSum + up);
 			sumDiff = maxSum - minSum;
-			callCnt = complete = 0;
+			complete = 0;
 			numbs.reset();
 			currResult.clear();
 			if (EfficientPartition.TEST) {
@@ -335,7 +339,7 @@ final class Partition {
 			}
 			doDSTree(0, ssCnt - 1);
 
-			if (isCompleteByPerfect() || (up *= 2) >= minSum // increase and checkup range expansion
+			if (isCompleteByPerfect() || isCompleteByLimit() || (up *= 2) >= minSum // increase and checkup range expansion
 					|| currResult.getSumDiff() > standbySumDiff) { // is current result worse than standby one?
 				break;
 			}
