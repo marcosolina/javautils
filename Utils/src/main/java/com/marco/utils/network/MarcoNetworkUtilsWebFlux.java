@@ -11,8 +11,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec;
 import org.springframework.web.util.UriBuilder;
 
-import reactor.core.publisher.Mono;
-
 public class MarcoNetworkUtilsWebFlux implements MarcoNetworkUtils {
 
     private WebClient.Builder wcb;
@@ -52,9 +50,12 @@ public class MarcoNetworkUtilsWebFlux implements MarcoNetworkUtils {
         /*
          * Create the request and adds query parameters if provided
          */
-
+        // @formatter:off
         RequestBodySpec rbs = wcb.build().method(method).uri(uriBuilder -> {
-            UriBuilder ub = uriBuilder.scheme(url.getProtocol()).host(url.getHost()).port(url.getPort())
+            UriBuilder ub = uriBuilder
+                    .scheme(url.getProtocol())
+                    .host(url.getHost())
+                    .port(url.getPort())
                     .path(url.getPath());
             if (queryParameters.isPresent()) {
                 for (Map.Entry<String, String> entry : queryParameters.get().entrySet()) {
@@ -64,6 +65,7 @@ public class MarcoNetworkUtilsWebFlux implements MarcoNetworkUtils {
             return ub.build();
 
         }).contentType(contentType);
+        // @formatter:on
 
         /*
          * Add HTTP headers if provided
